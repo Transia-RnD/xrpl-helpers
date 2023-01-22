@@ -1,17 +1,15 @@
 
 import { convertHexToString, convertStringToHex } from 'xrpl';
 
-export const fromCurrencyToHex = (symbol: string) => {
-  if (symbol.length > 3) {
-    const hex = convertStringToHex(symbol.toUpperCase());
+export const fromCurrencyToHex = (currency: string) => {
+  if (currency.length > 3) {
+    const hex = convertStringToHex(currency.toUpperCase());
     return hex.padEnd(40, '0');
   }
-  return symbol;
+  return currency;
 };
 
-export const fromHexToCurrency = (symbol: string) => {
-  if (symbol.length > 3) {
-    return convertHexToString(symbol);
-  }
-  return symbol;
+export const fromHexToCurrency = (hex: string) => {
+  if (hex.length > 3) { return convertHexToString(hex); }
+  return hex;
 };

@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "build": "tsc",
     "dev": "node src/index.js",
-    "test": "jest"
+    "test": "yarn run build && jest"
   },
   "author": "",
   "license": "ISC",
