@@ -6,7 +6,7 @@ import logging
 from typing import Dict, Any # noqa: F401
 
 from testing_config import BaseTestConfig
-from core.common.util import (
+from core.common.utils import (
     read_file,
     read_json,
     write_json,

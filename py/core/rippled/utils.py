@@ -4,7 +4,7 @@
 import re
 from typing import Dict, Any # noqa: F401
 
-from core.common.util import read_file
+from core.common.utils import read_file
 
 
 def parse_rippled_features(path: str):
@@ -15,6 +15,3 @@ def parse_rippled_features(path: str):
 
     # return the list of variables
     return matches
-
-
-
