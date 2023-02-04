@@ -30,5 +30,4 @@ def parse_rippled_features(path: str):
                     'supported': parse(supported[0] if supported else 'no'),
                     'default_vote': parse(default_vote[0] if default_vote else 'no')
                 }
-    print([k for k, v in features.items() if v['supported'] == True])
     return [k for k, v in features.items() if v['supported'] == True]
