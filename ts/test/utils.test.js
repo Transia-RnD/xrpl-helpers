@@ -5,7 +5,7 @@ const {
   buildNFTokenOfferID,
   buildXrplID,
   parseXrplID,
-} = require("../../dist/npm/src");
+} = require("../dist/npm/src");
 
 const testMap = [
   {
