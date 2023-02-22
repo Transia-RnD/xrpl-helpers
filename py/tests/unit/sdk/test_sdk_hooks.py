@@ -70,7 +70,7 @@ class TestXrplHooks(BaseTestConfig):
             [
                 {'HookParameter': {
                     'HookParameterName': '6E616D6531',
-                    'HookParameterValue': '76616C756531'
+                    'HookParameterValue': 'value1'
                 }}
             ]
         )

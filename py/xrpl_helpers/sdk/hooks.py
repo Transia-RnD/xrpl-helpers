@@ -72,9 +72,7 @@ def hex_hook_parameters(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
                 'HookParameterName': binascii.hexlify(
                     parameter['HookParameter']['HookParameterName'].encode('utf8')
                 ).decode('utf-8').upper(),
-                'HookParameterValue': binascii.hexlify(
-                    parameter['HookParameter']['HookParameterValue'].encode('utf8')
-                ).decode('utf-8').upper()
+                'HookParameterValue': parameter['HookParameter']['HookParameterValue']
             }
         })
     return hook_parameters
