@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from typing import Dict, Any # noqa: F401
+from typing import Dict, Any  # noqa: F401
 import json
 import yaml
 
@@ -61,5 +61,3 @@ def read_yaml(path: str) -> Dict[str, object]:
     """
     with open(path) as yaml_file:
         return yaml.safe_load(yaml_file)
-
-

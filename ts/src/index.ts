@@ -1,101 +1,59 @@
+const crypto = require("crypto");
 
-import { decodeAccountID } from 'ripple-address-codec'
-import { convertHexToString, convertStringToHex } from 'xrpl';
-import { createHash } from 'crypto'
+//bitbucket.org/angellenterprises/gambit-admin/src/1a81fc8c924718f0ec24d91a5e3168c4577f3d3c/server/services/xrp/contracts/liteacc/pay-from-lite.js
 
-/**
- * convert currency to hex
- * @param currency currency string
- * @returns hex string
- */
-export const fromCurrencyToHex = (currency: string): string => {
-  if (currency.length > 3) {
-    const hex = convertStringToHex(currency.toUpperCase());
-    return hex.padEnd(40, '0');
-  }
-  return currency;
+https: export const tts = {
+  ttPAYMENT: 0,
+  ttESCROW_CREATE: 1,
+  ttESCROW_FINISH: 2,
+  ttACCOUNT_SET: 3,
+  ttESCROW_CANCEL: 4,
+  ttREGULAR_KEY_SET: 5,
+  ttOFFER_CREATE: 7,
+  ttOFFER_CANCEL: 8,
+  ttTICKET_CREATE: 10,
+  ttSIGNER_LIST_SET: 12,
+  ttPAYCHAN_CREATE: 13,
+  ttPAYCHAN_FUND: 14,
+  ttPAYCHAN_CLAIM: 15,
+  ttCHECK_CREATE: 16,
+  ttCHECK_CASH: 17,
+  ttCHECK_CANCEL: 18,
+  ttDEPOSIT_PREAUTH: 19,
+  ttTRUST_SET: 20,
+  ttACCOUNT_DELETE: 21,
+  ttHOOK_SET: 22,
+  ttNFTOKEN_MINT: 25,
+  ttNFTOKEN_BURN: 26,
+  ttNFTOKEN_CREATE_OFFER: 27,
+  ttNFTOKEN_CANCEL_OFFER: 28,
+  ttNFTOKEN_ACCEPT_OFFER: 29,
 };
 
-/**
- * convert hex to currency
- * @param hex hex string
- * @returns currency string
- */
-export const fromHexToCurrency = (hex: string): string => {
-  if (hex.length > 3) { return convertHexToString(hex); }
-  return hex;
+export type TTS = typeof tts;
+
+export function calculateHookOn(arr: (keyof TTS)[]) {
+  let s = "0x3e3ff5bf";
+  arr.forEach((n) => {
+    let v = BigInt(s);
+    v ^= BigInt(1) << BigInt(tts[n]);
+    s = "0x" + v.toString(16);
+  });
+  s = s.replace("0x", "");
+  s = s.padStart(64, "0");
+  return s;
+}
+
+export const sha256 = async (string: string) => {
+  const utf8 = new TextEncoder().encode(string);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", utf8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray
+    .map((bytes) => bytes.toString(16).padStart(2, "0"))
+    .join("");
+  return hashHex;
 };
 
-/**
- * unscramble taxon
- * @param taxon taxon number
- * @param token_seq token sequence number
- * @returns unscrambled taxon number
- */
-function unscrambleTaxon(taxon: number, token_seq: number): number {
-  return (taxon ^ (384160001 * token_seq + 2459)) % 4294967296
-}
-
-/**
- * Builds a NFToken ID from the given parameters.
- *
- * @param flags - The flags for the NFToken.
- * @param fee - The fee for the NFToken.
- * @param account - The account that owns the NFToken.
- * @param sequence - The sequence number of the NFToken.
- * @param taxon - The taxon of the NFToken.
- * @returns The NFToken ID.
- */
-export function buildNFTokenID(
-  flags: number,
-  fee: number,
-  account: string,
-  sequence: number,
-  taxon: number,
-): string {
-  const prefix = Buffer.alloc(1);
-  const flagByteInt = Buffer.alloc(1);
-  const feeByteInt = Buffer.alloc(2);
-  const decodeResult = decodeAccountID(account);
-  const sequenceByteInt = Buffer.alloc(4);
-  const taxonByteInt = Buffer.alloc(4);
-
-  prefix.writeUInt8(0, 0);
-  flagByteInt.writeUInt8(flags, 0);
-  feeByteInt.writeUInt16BE(fee, 0);
-  sequenceByteInt.writeUInt32BE(sequence, 0);
-  taxonByteInt.writeUInt32BE(unscrambleTaxon(taxon, sequence), 0);
-
-  const nftokenId = Buffer.concat([
-    prefix,
-    flagByteInt,
-    feeByteInt,
-    decodeResult,
-    taxonByteInt,
-    sequenceByteInt,
-  ]);
-
-  return nftokenId.toString('hex').toUpperCase();
-}
-
-/**
- * Builds the NFToken Offer ID
- * @param account Account that initiated the offer tx
- * @param sequence Sequence on the offer tx
- * @returns Offer ID
- */
-export function buildNFTokenOfferID(
-  account: string,
-  sequence: number
-): string {
-  const decodeResult: Buffer = decodeAccountID(account);
-  const sequenceByteInt = Buffer.alloc(4);
-  sequenceByteInt.writeUInt32BE(sequence, 0);
-  const offerBytes: Buffer = Buffer.concat([
-    Buffer.from([0x00, 0x71]),
-    decodeResult,
-    sequenceByteInt,
-  ]);
-  const offerHash = createHash('sha512').update(offerBytes).digest()
-  return offerHash.slice(0, 32).toString('hex').toUpperCase()
+export async function hexNamespace(namespace: string) {
+  return (await sha256(namespace)).toUpperCase();
 }

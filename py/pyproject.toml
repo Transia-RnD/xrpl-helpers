@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "core"
+name = "xrpl-helpers"
 version = "1.0.2"
 description = ""
 authors = ["Denis Angell <denis@transia.co>"]
@@ -10,6 +10,7 @@ pytest = "^7.2.1"
 PyYAML = "^6.0"
 google-cloud-storage = "^2.7.0"
 google-cloud-core = "^2.3.2"
+xrpl-py = {git = "https://github.com/Transia-RnD/xrpl-py.git"}
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.8.4"

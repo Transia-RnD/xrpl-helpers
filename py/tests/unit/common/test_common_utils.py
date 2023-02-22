@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import json
+# import json
 import logging
-from typing import Dict, Any # noqa: F401
+from typing import Dict, Any  # noqa: F401
 
 from testing_config import BaseTestConfig
-from core.common.utils import (
+from xrpl_helpers.common.utils import (
     read_file,
     read_json,
     write_json,
@@ -14,6 +14,7 @@ from core.common.utils import (
 )
 
 logger = logging.getLogger('app')
+
 
 class TestCommonUtils(BaseTestConfig):
 

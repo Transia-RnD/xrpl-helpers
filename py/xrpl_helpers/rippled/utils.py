@@ -2,9 +2,9 @@
 # coding: utf-8
 
 import re
-from typing import Dict, Any # noqa: F401
+from typing import Dict, Any  # noqa: F401
 
-from core.common.utils import read_file
+from xrpl_helpers.common.utils import read_file
 
 
 def parse(value: str):
@@ -12,6 +12,7 @@ def parse(value: str):
         return False
     else:
         return True
+
 
 def parse_rippled_features(path: str):
     with open(path, 'r') as f:
