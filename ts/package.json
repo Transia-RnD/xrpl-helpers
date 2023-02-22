@@ -18,6 +18,7 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
+    "crypto-browserify": "^3.12.0",
     "xrpl": "^2.8.0-beta.0"
   }
 }
