@@ -1,4 +1,5 @@
 [flake8]
+max-line-length = 79
 # As defined at https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings
 docstring-convention=google
 

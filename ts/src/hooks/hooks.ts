@@ -62,7 +62,7 @@ export function calculateHookOn(arr: (keyof TTS)[]): string {
   });
   s = s.replace("0x", "");
   s = s.padStart(64, "0");
-  return s;
+  return s.toUpperCase();
 }
 
 /**
@@ -112,7 +112,12 @@ export function hexHookParameters(data: any[]): any[] {
         )
           .toString("hex")
           .toUpperCase(),
-        HookParameterValue: parameter.HookParameter.HookParameterValue,
+        HookParameterValue: Buffer.from(
+          parameter.HookParameter.HookParameterValue,
+          "utf8"
+        )
+          .toString("hex")
+          .toUpperCase(),
       },
     });
   }
