@@ -20,6 +20,10 @@ const testMap = [
     currency: "SOLO",
     hex: "534F4C4F00000000000000000000000000000000",
   },
+  {
+    currency: "IUSD",
+    hex: "4955534400000000000000000000000000000000",
+  },
 ];
 
 describe("test convert fromCurrencyToHex & fromHexToCurrency", function () {

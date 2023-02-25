@@ -25,7 +25,6 @@
     "editor.wordWrapColumn": 79,
     "editor.tabSize": 4,
     "editor.formatOnSave": true
-
   },
   "[javascript]": {
       "editor.tabSize": 2,

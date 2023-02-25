@@ -22,14 +22,14 @@ describe("test hook on", function () {
   it("all", function () {
     const result = calculateHookOn([]);
     expect(result).toEqual(
-      "000000000000000000000000000000000000000000000000000000003e3ff5bf"
+      "000000000000000000000000000000000000000000000000000000003E3FF5BF"
     );
   });
   it("one", function () {
     const invokeOn = ["ttACCOUNT_SET"];
     const result = calculateHookOn(invokeOn);
     expect(result).toEqual(
-      "000000000000000000000000000000000000000000000000000000003e3ff5b7"
+      "000000000000000000000000000000000000000000000000000000003E3FF5B7"
     );
   });
 });
@@ -58,7 +58,7 @@ describe("test hook parameters", function () {
       {
         HookParameter: {
           HookParameterName: "6E616D6531",
-          HookParameterValue: "value1",
+          HookParameterValue: "76616C756531",
         },
       },
     ]);
