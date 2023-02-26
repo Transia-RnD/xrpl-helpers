@@ -37,9 +37,7 @@ if __name__ == "__main__":
         features_file: str = rippled_dir + "/src/ripple/protocol/impl/Feature.cpp"
         features_blob: str = build_path + "/features.json"
         features: Any = parse_rippled_amendments(features_file)
-        print(features)
-
-        # client.upload(blob_name=features_blob, payload=features)
+        client.upload(blob_name=features_blob, payload=features)
 
         # # save rippled
         # rippled_file: str = rippled_dir + "/.build/rippled"
