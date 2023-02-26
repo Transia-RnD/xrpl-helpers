@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# poetry run python3 release.py dangell7 vala 1 linux/amd /Users/dustedfloor/projects/transia-rnd/rippled-icv2
+# poetry run python3 release.py dangell7 vala 1 linux/amd /Users/dustedfloor/projects/xrpl-labs/rippled-sandbox
 
 from typing import Dict, Any, List  # noqa: F401
 import sys
@@ -13,7 +13,9 @@ from xrpl_helpers.rippled.utils import parse_rippled_features
 
 if __name__ == "__main__":
     if len(sys.argv) < 5:
-        print("Usage: python3 release.py <namespace> <buildname> <version> <platform> <source file> <dest file>")
+        print(
+            "Usage: python3 release.py <namespace> <buildname> <version> <platform> <source file> <dest file>"
+        )
         sys.exit()
 
     namespace: str = sys.argv[1]
@@ -24,19 +26,20 @@ if __name__ == "__main__":
     if rippled_dir[-1] == "/":
         print("Path Usage: app/src/ripple - no forwardslash")
         sys.exit()
-    build_path: str = f'{namespace}/{build_name}/{version}'
 
+    build_path: str = f"{namespace}/{build_name}/{version}"
     client: GCPStorageClient = GCPStorageClient(
         project_id="metaxrplorer", bucket_name="thehub-builds"
     )
 
     # save features list
-    features_file: str = rippled_dir + '/src/ripple/protocol/impl/Feature.cpp'
-    features_blob: str = build_path + '/features.json'
+    features_file: str = rippled_dir + "/src/ripple/protocol/impl/Feature.cpp"
+    features_blob: str = build_path + "/features.json"
     features: Any = parse_rippled_features(features_file)
+
     client.upload(blob_name=features_blob, payload=features)
 
-    # save rippled list
-    rippled_file: str = rippled_dir + '/src/ripple/.build/rippled'
-    rippled_blob: str = build_path + f'/rippled-{platform}'
-    client.upload(blob_name=rippled_blob, file=rippled_file)
+    # save rippled
+    # rippled_file: str = rippled_dir + "/.build/rippled"
+    # rippled_blob: str = build_path + f"/rippled-{platform}"
+    # client.upload(blob_name=rippled_blob, file=rippled_file)
