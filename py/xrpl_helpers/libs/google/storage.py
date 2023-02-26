@@ -57,4 +57,4 @@ class GCPStorageClient(object):
 
         if file and isinstance(file, str):
             blob = cls.bucket.blob(blob_name)
-            blob.upload_from_filename(payload)
+            blob.upload_from_filename(file)
