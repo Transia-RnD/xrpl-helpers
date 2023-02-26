@@ -17,7 +17,6 @@ from google.cloud.storage.bucket import Bucket
 
 
 class GCPStorageClient(object):
-
     client: Client = None
     bucket: Bucket = None
     public_base: str = ""
@@ -46,15 +45,15 @@ class GCPStorageClient(object):
         blob.download_to_filename(to_file_name)
         return cls.bucket
 
-    def upload(cls, blob_name: str, file: str = '', payload: Any = None):
+    def upload(cls, blob_name: str, file: str = "", payload: Any = None):
         """
         :param blob_name: the blob name for the new file
         :param file: the name of the file to upload
         :param payload: the payload of the file to upload
         """
-        if payload and isinstance(payload, str):
+        if payload:
             blob = cls.bucket.blob(blob_name)
-            blob.upload_from_string(json.dumps(payload), 'application/json')
+            blob.upload_from_string(json.dumps(payload), "application/json")
 
         if file and isinstance(file, str):
             blob = cls.bucket.blob(blob_name)
