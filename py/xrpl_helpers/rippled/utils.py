@@ -36,8 +36,8 @@ def parse_rippled_amendments(path: str):
                     "supported": parse(supported[0] if supported else "no"),
                     "default_vote": parse(default_vote[0] if default_vote else "no"),
                 }
-    return [
-        hashlib.sha512(k.encode("utf-8")).digest().hex().upper()[:64]
-        for k, v in amendments.items()
+    return {
+        k: hashlib.sha512(k.encode("utf-8")).digest().hex().upper()[:64]
+        for (k, v) in amendments.items()
         if v["supported"] == True
-    ]
+    }
