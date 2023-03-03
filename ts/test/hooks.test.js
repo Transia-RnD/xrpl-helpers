@@ -19,6 +19,12 @@ describe("test hook binary", function () {
 });
 
 describe("test hook on", function () {
+  it("invalid", function () {
+    const invokeOn = ["AccountSet1"];
+    expect(() => {
+      calculateHookOn(invokeOn);
+    }).toThrow("invalid transaction type array");
+  });
   it("all", function () {
     const result = calculateHookOn([]);
     expect(result).toEqual(
@@ -26,7 +32,7 @@ describe("test hook on", function () {
     );
   });
   it("one", function () {
-    const invokeOn = ["ttACCOUNT_SET"];
+    const invokeOn = ["AccountSet"];
     const result = calculateHookOn(invokeOn);
     expect(result).toEqual(
       "000000000000000000000000000000000000000000000000000000003E3FF5B7"

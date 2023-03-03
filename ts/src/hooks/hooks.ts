@@ -4,6 +4,7 @@
  * This module contains the transaction types and the function to calculate the hook on
  */
 
+import { TRANSACTION_TYPE_MAP, TRANSACTION_TYPES } from "ripple-binary-codec";
 const createHash = require("create-hash");
 
 /**
@@ -11,33 +12,8 @@ const createHash = require("create-hash");
  * @description
  * Transaction types
  */
-export const tts = {
-  ttPAYMENT: 0,
-  ttESCROW_CREATE: 1,
-  ttESCROW_FINISH: 2,
-  ttACCOUNT_SET: 3,
-  ttESCROW_CANCEL: 4,
-  ttREGULAR_KEY_SET: 5,
-  ttOFFER_CREATE: 7,
-  ttOFFER_CANCEL: 8,
-  ttTICKET_CREATE: 10,
-  ttSIGNER_LIST_SET: 12,
-  ttPAYCHAN_CREATE: 13,
-  ttPAYCHAN_FUND: 14,
-  ttPAYCHAN_CLAIM: 15,
-  ttCHECK_CREATE: 16,
-  ttCHECK_CASH: 17,
-  ttCHECK_CANCEL: 18,
-  ttDEPOSIT_PREAUTH: 19,
-  ttTRUST_SET: 20,
-  ttACCOUNT_DELETE: 21,
-  ttHOOK_SET: 22,
-  ttNFTOKEN_MINT: 25,
-  ttNFTOKEN_BURN: 26,
-  ttNFTOKEN_CREATE_OFFER: 27,
-  ttNFTOKEN_CANCEL_OFFER: 28,
-  ttNFTOKEN_ACCEPT_OFFER: 29,
-};
+
+export const tts = TRANSACTION_TYPE_MAP;
 
 /**
  * @typedef TTS
@@ -56,6 +32,9 @@ export type TTS = typeof tts;
 export function calculateHookOn(arr: (keyof TTS)[]): string {
   let s = "0x3e3ff5bf";
   arr.forEach((n) => {
+    if (!TRANSACTION_TYPES.includes(n as string)) {
+      throw Error("invalid transaction type array");
+    }
     let v = BigInt(s);
     v ^= BigInt(1) << BigInt(tts[n]);
     s = "0x" + v.toString(16);

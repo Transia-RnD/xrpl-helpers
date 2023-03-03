@@ -21,10 +21,10 @@
   "python.linting.enabled": true,
   "python.linting.mypyEnabled": true,
   "[python]": {
-    "editor.wordWrap": "wordWrapColumn",
-    "editor.wordWrapColumn": 79,
+    // "editor.wordWrap": "wordWrapColumn",
+    // "editor.wordWrapColumn": 79,
     "editor.tabSize": 4,
-    "editor.formatOnSave": true
+    // "editor.formatOnSave": true
   },
   "[javascript]": {
       "editor.tabSize": 2,

@@ -69,3 +69,11 @@ def read_memos(memos: List[Memo]):
     for memo in memos:
         hex_memos.append(read_memo(memo))
     return hex_memos
+
+
+# types: List[str] = ['Escrow', 'PaymentChannel', 'URIToken']
+def get_object_id(meta: Dict[str, Any], type: str) -> str:
+    created_list = [node for node in meta['AffectedNodes'] if 'CreatedNode' in node and node['CreatedNode']['LedgerEntryType'] == type]
+    if len(created_list) > 0:
+        return created_list[0]['CreatedNode']['LedgerIndex']
+    return None
