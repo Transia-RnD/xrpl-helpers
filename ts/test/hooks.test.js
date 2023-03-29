@@ -28,14 +28,14 @@ describe("test hook on", function () {
   it("all", function () {
     const result = calculateHookOn([]);
     expect(result).toEqual(
-      "000000000000000000000000000000000000000000000000000000003E3FF5BF"
+      "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFF"
     );
   });
   it("one", function () {
     const invokeOn = ["AccountSet"];
     const result = calculateHookOn(invokeOn);
     expect(result).toEqual(
-      "000000000000000000000000000000000000000000000000000000003E3FF5B7"
+      "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFF7"
     );
   });
 });
