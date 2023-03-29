@@ -30,7 +30,7 @@ export type TTS = typeof tts;
  * @returns {string} - the hook on
  */
 export function calculateHookOn(arr: (keyof TTS)[]): string {
-  let s = "0x3e3ff5bf";
+  let s = "0x0000000000000000000000000000000000000008000000000003e0003e3ff5bf";
   arr.forEach((n) => {
     if (!TRANSACTION_TYPES.includes(n as string)) {
       throw Error("invalid transaction type array");

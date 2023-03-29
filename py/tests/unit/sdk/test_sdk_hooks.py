@@ -34,7 +34,7 @@ class TestXrplHooks(BaseTestConfig):
     def test_calculate_hook_on_all(cls):
         hook_on: str = calculate_hook_on([])
         cls.assertEqual(
-            hook_on, "000000000000000000000000000000000000000000000000000000003E3FF5BF"
+            hook_on, "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFF"
         )
 
     def test_calculate_hook_on_account_set(cls):
@@ -42,7 +42,7 @@ class TestXrplHooks(BaseTestConfig):
         hook_on_values: List[str] = [v for v in invoke_on]
         hook_on: str = calculate_hook_on(hook_on_values)
         cls.assertEqual(
-            hook_on, "000000000000000000000000000000000000000000000000000000003E3FF5B7"
+            hook_on, "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFF7"
         )
 
     def test_hook_namespace(cls):
