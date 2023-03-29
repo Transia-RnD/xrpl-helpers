@@ -1,5 +1,5 @@
-import { decodeAccountID } from "ripple-address-codec";
-import { convertHexToString, convertStringToHex } from "xrpl";
+import { decodeAccountID } from "@transia/ripple-address-codec";
+import { convertHexToString, convertStringToHex } from "@transia/xrpl";
 import { createHash } from "crypto";
 import BigNumber from "bignumber.js";
 
@@ -36,6 +36,30 @@ export const fromHexToCurrency = (hex: string): string => {
  */
 function unscrambleTaxon(taxon: number, token_seq: number): number {
   return (taxon ^ (384160001 * token_seq + 2459)) % 4294967296;
+}
+
+function getLastModifiedNode(meta, ledgerEntry) {
+  const modifiedNodes = meta.AffectedNodes.filter(
+    (node) => node.ModifiedNode?.LedgerEntryType === ledgerEntry
+  );
+  return modifiedNodes.pop();
+}
+
+/**
+ * Builds a NFToken ID from the given parameters.
+ *
+ * @param tx - The validated transaction including metadata
+ * @returns The NFToken ID.
+ */
+export function buildNFTokenIDFromTx(tx: Record<string, any>): string {
+  const sequence =
+    getLastModifiedNode(tx.meta, "AccountRoot").ModifiedNode.PreviousFields
+      .MintedNFTokens || 0;
+  const account = tx.Issuer || tx.Account;
+  const flags = tx.Flags;
+  const fee = tx.TransferFee;
+  const taxon = tx.NFTokenTaxon;
+  return buildNFTokenID(flags, fee, account, sequence, taxon);
 }
 
 /**

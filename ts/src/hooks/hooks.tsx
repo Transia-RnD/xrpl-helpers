@@ -4,7 +4,10 @@
  * This module contains the transaction types and the function to calculate the hook on
  */
 
-import { TRANSACTION_TYPE_MAP, TRANSACTION_TYPES } from "ripple-binary-codec";
+import {
+  TRANSACTION_TYPE_MAP,
+  TRANSACTION_TYPES,
+} from "@transia/ripple-binary-codec";
 const createHash = require("create-hash");
 
 /**
@@ -30,7 +33,7 @@ export type TTS = typeof tts;
  * @returns {string} - the hook on
  */
 export function calculateHookOn(arr: (keyof TTS)[]): string {
-  let s = "0x3e3ff5bf";
+  let s = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffbfffff";
   arr.forEach((n) => {
     if (!TRANSACTION_TYPES.includes(n as string)) {
       throw Error("invalid transaction type array");

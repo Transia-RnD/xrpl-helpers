@@ -1,11 +1,14 @@
 const {
   fromCurrencyToHex,
   fromHexToCurrency,
+  buildNFTokenIDFromTx,
   buildNFTokenID,
   buildNFTokenOfferID,
   buildXrplID,
   parseXrplID,
-} = require("../dist/npm/src");
+} = require("../../dist/npm/src");
+
+const nftokenTx = require("../fixtures/nftoken.tx.json");
 
 const testMap = [
   {
@@ -38,11 +41,17 @@ describe("test convert fromCurrencyToHex & fromHexToCurrency", function () {
 });
 
 describe("test build nftokenID", function () {
+  it("buildNFTokenID from meta", function () {
+    const result = buildNFTokenIDFromTx(nftokenTx);
+    expect(result).toEqual(
+      "00081F400489E3ABBC03C44F8A0F0ADC21456B79DC1143953603726900000BCD"
+    );
+  });
   it("buildNFTokenID", function () {
     const flags = 11;
     const fee = 1337;
-    const sequence = 12;
     const taxon = 1337;
+    const sequence = 12;
     const result = buildNFTokenID(
       flags,
       fee,
