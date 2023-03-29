@@ -3,14 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "sync-binary": "yarn add ~/projects/xrpl-labs/xrpl.js/packages/ripple-binary-codec",
-    "sync-xrpl": "yarn add ~/projects/xrpl-labs/xrpl.js/packages/xrpl",
-    "sync": "yarn run sync-binary && yarn run sync-xrpl",
     "build": "tsc",
-    "sync:build": "yarn run sync && tsc",
     "dev": "ts-node src/index.ts",
     "test": "yarn run build && jest --detectOpenHandles",
-    "test:sync": "yarn run sync:build && jest --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",
@@ -23,8 +18,6 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "crypto-browserify": "^3.12.0",
-    "ripple-binary-codec": "/Users/dustedfloor/projects/xrpl-labs/xrpl.js/packages/ripple-binary-codec",
-    "xrpl": "/Users/dustedfloor/projects/xrpl-labs/xrpl.js/packages/xrpl"
+    "crypto-browserify": "^3.12.0"
   }
 }
