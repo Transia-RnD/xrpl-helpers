@@ -1,5 +1,5 @@
-import { decodeAccountID } from "ripple-address-codec";
-import { convertHexToString, convertStringToHex } from "xrpl";
+import { decodeAccountID } from "@transia/ripple-address-codec";
+import { convertHexToString, convertStringToHex } from "@transia/xrpl";
 import { createHash } from "crypto";
 import BigNumber from "bignumber.js";
 

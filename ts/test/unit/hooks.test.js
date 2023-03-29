@@ -2,7 +2,7 @@ const {
   calculateHookOn,
   hexNamespace,
   hexHookParameters,
-} = require("../dist/npm/src");
+} = require("../../dist/npm/src");
 
 const fs = require("fs");
 

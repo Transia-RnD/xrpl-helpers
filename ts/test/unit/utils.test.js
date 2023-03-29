@@ -6,9 +6,9 @@ const {
   buildNFTokenOfferID,
   buildXrplID,
   parseXrplID,
-} = require("../dist/npm/src");
+} = require("../../dist/npm/src");
 
-const nftokenTx = require("./fixtures/nftoken.tx.json");
+const nftokenTx = require("../fixtures/nftoken.tx.json");
 
 const testMap = [
   {

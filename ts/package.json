@@ -6,11 +6,12 @@
     "build": "tsc",
     "dev": "ts-node src/index.ts",
     "test": "yarn run build && jest --detectOpenHandles",
+    "test:integration": "make"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^29.2.6",
+    "@types/jest": "^29.4.0",
     "@types/node": "^18.14.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
@@ -18,6 +19,9 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "crypto-browserify": "^3.12.0"
+    "@transia/xrpl": "^2.7.1-alpha.6",
+    "crypto-browserify": "^3.12.0",
+    "chai": "^4.3.7",
+    "ts-jest": "^29.0.5"
   }
 }

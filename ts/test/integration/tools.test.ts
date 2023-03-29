@@ -11,9 +11,7 @@ const {
   trust,
   pay,
   balance,
-} = require("../dist/npm/src");
-
-import { sign } from "@transia/ripple-keypairs";
+} = require("../../dist/npm/src");
 
 describe("test tools", function () {
   it("all", async function () {
