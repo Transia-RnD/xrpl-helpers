@@ -1,5 +1,8 @@
 {
   "name": "@transia/xrpl-helpers",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "1.0.0",
   "description": "",
   "scripts": {
