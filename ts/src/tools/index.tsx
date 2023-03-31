@@ -317,26 +317,40 @@ export async function close(ctx: Client): Promise<void> {
   await ctx.request(LEDGER_ACCEPT_REQUEST);
 }
 
+function isLocalRippled(uri: string): boolean {
+  const regex =
+    /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
+  if (uri.match(regex) && uri.startsWith("127.0.0.1")) {
+    return true;
+  }
+  return false;
+}
+
 export async function waitForResult(
   ctx: Client,
   txHash: string
 ): Promise<TxResponse> {
   let timeout = 0;
-  while (timeout <= 8) {
+  if (isLocalRippled(ctx.connection.getUrl())) {
+    throw new Error("function not avail on testnet or mainnet");
+  }
+  while (timeout <= 200) {
     ctx.request(LEDGER_ACCEPT_REQUEST);
     const request: TxRequest = {
       command: "tx",
       transaction: txHash,
     };
     const response = await ctx.request(request);
+
     if (
       "validated" in response.result &&
       response.result["validated"] === true
     ) {
       return response;
     }
-    setTimeout(() => {}, 1000);
     timeout += 1;
+    console.log(`WAITING: ${timeout}`);
   }
+  console.log(`TIMEOUT: ${timeout}`);
   throw new Error("test transaction timeout");
 }
