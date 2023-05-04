@@ -30,7 +30,7 @@ if __name__ == "__main__":
     try:
         build_path: str = f"{namespace}/{build_name}/{version}"
         client: GCPStorageClient = GCPStorageClient(
-            project_id="metaxrplorer", bucket_name="thehub-builds"
+            project_id="thelab-924f3", bucket_name="thelab-builds"
         )
 
         # save features list
