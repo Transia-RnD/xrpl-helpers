@@ -6,6 +6,15 @@ import json
 import yaml
 
 
+def read_txt(path: str) -> Dict[str, object]:
+    """
+    Reads txt from file path
+    :return: Dict[str, object]
+    """
+    with open(path) as json_file:
+        return json_file.readlines()
+
+
 def read_file(path: str) -> str:
     """Read File
 

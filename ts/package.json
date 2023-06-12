@@ -8,6 +8,10 @@
     "test": "yarn run build && jest --detectOpenHandles",
     "test:integration": "make"
   },
+  "main": "dist/npm/src/index.js",
+  "files": [
+    "dist/**/*"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
