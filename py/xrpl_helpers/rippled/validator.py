@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import os
 from typing import Dict, Any, List  # noqa: F401
 from xrpl_helpers.common.utils import read_json, read_txt
 import subprocess
 
-from xrpl.core.binarycodec.main import decode
+from basedir import basedir
+
+# from xrpl.core.binarycodec.main import decode
 
 class ValidatorClient(object):
 
@@ -14,25 +17,43 @@ class ValidatorClient(object):
 
     def __init__(cls, name: str) -> None:
         cls.name = name
+        cls.keystore_path = os.path.join(basedir, f'keystore')
+        cls.key_path = os.path.join(cls.keystore_path, f'{cls.name}/key.json')
+
+    def get_keys(cls):
+        try:
+            return read_json(cls.key_path)
+        except Exception as e:
+            print(e)
+            return None
 
     def create_keys(cls) -> str:
-        args1 = ['./validator-keys', 'create_keys', '--keyfile', f'keystore/{cls.name}/key.json']
+        keys = cls.get_keys()
+        if keys: return keys
+        args1 = ['../bin/validator-keys', 'create_keys', '--keyfile', cls.key_path]
         subprocess.call(args1)
-        return read_json(f'keystore/{cls.name}/key.json')
+        return read_json(cls.key_path)
 
     def set_domain(cls, domain: str) -> None:
-        args1 = ['./validator-keys', 'set_domain', domain]
+        args1 = ['../bin/validator-keys', 'set_domain', domain]
         subprocess.call(args1)
 
     def create_token(cls, domain: str) -> str:
         # cls.set_domain(domain)
-        out = open(f'keystore/{cls.name}/token.txt', 'w')
-        args = ['./validator-keys', 'create_token', '--keyfile', f'keystore/{cls.name}/key.json']
+        token_path = os.path.join(cls.keystore_path, f'{cls.name}/token.txt')
+        out = open(token_path, 'w')
+        args = ['../bin/validator-keys', 'create_token', '--keyfile', cls.key_path]
         subprocess.call(args, stdout=out)
-        return read_txt(f'keystore/{cls.name}/token.txt')
+        return read_txt(token_path)
 
     def create_manifest(cls) -> str:
-        out = open(f'keystore/{cls.name}/manifest.txt', 'w')
-        args = ['./validator-keys', 'show_manifest', 'base64', '--keyfile', f'keystore/{cls.name}/key.json']
+        manifest_path = os.path.join(cls.keystore_path, f'{cls.name}/manifest.txt')
+        out = open(manifest_path, 'w')
+        args = ['../bin/validator-keys', 'show_manifest', 'base64', '--keyfile', cls.key_path]
         subprocess.call(args, stdout=out)
-        return read_txt(f'keystore/{cls.name}/manifest.txt')
+        return read_txt(manifest_path)
+
+    def read_manifest(cls) -> str:
+        manifest_path = os.path.join(cls.keystore_path, f'{cls.name}/manifest.txt')
+        manifest = read_txt(manifest_path)
+        return manifest[1].replace('\n', '')

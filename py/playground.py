@@ -6,8 +6,8 @@ import hashlib
 import json
 import base64
 
-k = 'Import'
-print(hashlib.sha512(k.encode("utf-8")).digest().hex().upper()[:64])
+# k = 'Import'
+# print(hashlib.sha512(k.encode("utf-8")).digest().hex().upper()[:64])
 
 from xrpl_helpers.rippled.validator import ValidatorClient
 
@@ -34,16 +34,22 @@ from xrpl_helpers.rippled.validator import ValidatorClient
 # print(publisher.reset())
 
 # 1. Create Burn Master (The master node)
-publisher = ValidatorClient('burn_vmaster')
+# publisher = ValidatorClient('burn_vmaster')
 # publisher.create_keys()
-publisher.create_token('burn.master.transia.co')
-publisher.create_manifest()
+# publisher.create_token('burn.master.transia.co')
+# publisher.create_manifest()
 
-# 1. Create Burn Node1 (The master node)
-publisher = ValidatorClient('burn_vnode1')
+# 2. Create Burn Node1 (The peer node)
+# publisher = ValidatorClient('burn_vnode1')
 # publisher.create_keys()
-publisher.create_token('burn.node1.transia.co')
-publisher.create_manifest()
+# publisher.create_token('burn.node1.transia.co')
+# publisher.create_manifest()
+
+# 3. Create Burn node2 (The peer node)
+# publisher = ValidatorClient('burn_vnode2')
+# publisher.get_or_create_keys()
+# publisher.create_token('burn.node2.transia.co')
+# publisher.create_manifest()
 
 # manifest: str = """
 # JAAAAAFxIe15tDJnJdSr9uS3nL945/83I4UV7IbtAPYhfUcM405tiHMh7bLZujYK907eoOADwK6XYxc+VBZTy90vN5zgJVoW9dUEdkAarPTP2tRmQHpWzbMbVhkNKWDYBWnoXJwnaz8av50WG6p/ISkm6nuJi0AajSc7UJ/ttANSGwYqQuuhFGcyrfUGcBJAOzvuJnZfQ5NUGzBjczX/A1C3mDQAA4CCsDXIso2voN9voxSHxbKBUAGcsexdEpRW2nK2tziUJI3Eye3XbDzfBg==
