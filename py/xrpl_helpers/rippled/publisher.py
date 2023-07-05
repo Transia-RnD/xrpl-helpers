@@ -164,6 +164,12 @@ class PublisherClient(object):
         if len(cls.vl.blob.validators) == 0:
             raise ValueError('must have at least 1 validator')
 
+        if not effective:
+            effective: int = 0 # 01/01/2000
+
+        if not expiration:
+            expiration: int = 86400 * 30 # expires in 30 days
+
         vl_path = f'keystore/{cls.name}_publisher/vl.json'
         out = open(vl_path, 'w')
         vl_manifests: List[str] = [v.manifest for v in cls.vl.blob.validators]

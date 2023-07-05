@@ -12,7 +12,6 @@ from basedir import basedir
 
 class ValidatorClient(object):
 
-    expiration: int = 86400 * 30 # expires in 30 days
     name: str = ''  # node1 | node2 | signer
 
     def __init__(cls, name: str) -> None:
