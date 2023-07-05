@@ -93,27 +93,31 @@ class VL(object):
 class PublisherClient(object):
 
     name: str = ''
+    manifest: str = ''
     key: Dict[str, Any] = {}
     vl: VL = None
 
-    def __init__(cls, name: str) -> None:
+    def __init__(cls, name: str, manifest: str) -> None:
         cls.name = name
+        cls.manifest = manifest
         os.makedirs(f'keystore/{cls.name}_publisher', exist_ok=True)
         try:
-            cls.key = read_json(f'keystore/{cls.name}_publisher/key.json')
+            # cls.key = read_json(f'keystore/{cls.name}_publisher/key.json')
             vl_dict: Dict[str, Any] = read_json(f'keystore/{cls.name}_publisher/vl.json')
             cls.vl = VL.from_json(vl_dict)
         except Exception as e:
             # print(e)
             cls.vl = None
 
-        # print(cls.vl.to_dict())
-
-    def new(cls, manifest: str):
-        cls.vl = VL()
-        cls.vl.manifest = manifest
-        cls.vl.blob = Blob()
-        cls.vl.blob.sequence = 1
+        # Reset VL
+        if not cls.vl:
+            cls.vl = VL()
+            cls.vl.manifest = cls.manifest
+            cls.vl.blob = Blob()
+            cls.vl.blob.sequence = 1
+        else:
+            cls.vl.blob.sequence += 1
+        pass
 
     def add_validator(cls, manifest: str):
         if not cls.vl:
@@ -132,18 +136,25 @@ class PublisherClient(object):
 
     def remove_validator(cls, public_key: str):
         if not cls.vl:
-            raise ValueError('invalid vl')
+            raise ValueError('Invalid VL')
 
-        if not cls.blob_json:
-            raise ValueError('invalid blob')
+        if not cls.vl.blob:
+            raise ValueError('Invalid Blob')
 
-        vlist: List[Dict[str, Any]] = cls.blob_json['validators']
-        cls.blob_json['sequence'] += 1
-        cls.blob_json['expiration'] = (int(time.time()) + cls.expiration) - 946684800
-        cls.blob_json['validators'] = [l for l in vlist if l['validation_public_key'] != public_key]
+        validators = cls.vl.blob.validators
+        # Find the validator with the specified public key
+        for validator in validators:
+            if validator.pk == public_key:
+                validators.remove(validator)
+                break
+        else:
+            raise ValueError('Validator not found')
+
+        cls.vl.blob.validators = validators
 
     def sign_unl(
             cls,
+            pk: int,
             effective: int,
             expiration: int
         ):
@@ -159,10 +170,10 @@ class PublisherClient(object):
         args = [
             '../bin/validator-list',
             'sign',
-            '--private_key', cls.key['privateKey'],
+            '--private_key', pk,
             '--sequence', str(cls.vl.blob.sequence),
             '--expiration', str(expiration),
-            '--manifest', cls.key['manifest'],
+            '--manifest', cls.vl.manifest,
             '--manifests', ','.join(vl_manifests),
         ]
         subprocess.call(args, stdout=out)
