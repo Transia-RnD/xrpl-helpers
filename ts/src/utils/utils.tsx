@@ -38,7 +38,7 @@ function unscrambleTaxon(taxon: number, token_seq: number): number {
   return (taxon ^ (384160001 * token_seq + 2459)) % 4294967296;
 }
 
-function getLastModifiedNode(meta, ledgerEntry) {
+function getLastModifiedNode(meta: Record<string, any>, ledgerEntry: string) {
   const modifiedNodes = meta.AffectedNodes.filter(
     (node) => node.ModifiedNode?.LedgerEntryType === ledgerEntry
   );
@@ -51,9 +51,12 @@ function getLastModifiedNode(meta, ledgerEntry) {
  * @param tx - The validated transaction including metadata
  * @returns The NFToken ID.
  */
-export function buildNFTokenIDFromTx(tx: Record<string, any>): string {
+export function buildNFTokenIDFromTx(
+  tx: Record<string, any>,
+  meta: Record<string, any>
+): string {
   const sequence =
-    getLastModifiedNode(tx.meta, "AccountRoot").ModifiedNode.PreviousFields
+    getLastModifiedNode(meta, "AccountRoot").ModifiedNode.PreviousFields
       .MintedNFTokens || 0;
   const account = tx.Issuer || tx.Account;
   const flags = tx.Flags;

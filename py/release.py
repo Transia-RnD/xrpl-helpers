@@ -39,6 +39,8 @@ if __name__ == "__main__":
         features: Any = parse_rippled_amendments(features_file)
         client.upload(blob_name=features_blob, payload=features)
 
+        # write_json('/amendments/features.json', features)
+
         # # save rippled
         # rippled_file: str = rippled_dir + "/.build/rippled"
         # rippled_blob: str = build_path + f"/rippled-{platform}"
