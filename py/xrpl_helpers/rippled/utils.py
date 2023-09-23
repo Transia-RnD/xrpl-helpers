@@ -3,6 +3,7 @@
 
 import re
 import os
+from datetime import datetime
 from typing import Dict, Any  # noqa: F401
 
 from xrpl_helpers.common.utils import read_file
@@ -17,6 +18,10 @@ def parse(value: str):
 
 
 def parse_version_from_path(file_path):
+    if "xahau" in file_path:
+        # Return the current year/month/day as the version
+        return datetime.now().strftime('%Y/%m/%d')
+
     # Open the file in read mode
     with open(file_path, 'r') as file:
         # Read all the lines
