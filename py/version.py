@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# poetry run python3 release.py dangell7 vala linux/amd /Users/denisangell/projects/xrpl-labs/rippled
+# poetry run python3 version.py dangell7 vala linux/amd /Users/denisangell/projects/xrpl-labs/rippled
 
 from typing import Dict, Any, List  # noqa: F401
 import sys
@@ -8,13 +8,13 @@ import json
 
 from xrpl_helpers.libs.google.storage import GCPStorageClient
 
-from xrpl_helpers.common.utils import write_json
-from xrpl_helpers.rippled.utils import parse_rippled_amendments, parse_version_from_path
+from xrpl_helpers.common.utils import write_file
+from xrpl_helpers.rippled.utils import parse_version_from_path
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
         print(
-            "Usage: python3 release.py <namespace> <buildname> <platform> <source file> <dest file>"
+            "Usage: python3 version.py <namespace> <buildname> <platform> <source file> <dest file>"
         )
         sys.exit()
 
@@ -32,19 +32,15 @@ if __name__ == "__main__":
             project_id="thelab-924f3", bucket_name="thelab-builds"
         )
 
-        # get Version
+        # get version
         version_file: str = rippled_dir + "/src/ripple/protocol/impl/BuildInfo.cpp"
         version_str: str = parse_version_from_path(version_file)
 
-        # get features list
-        features_file: str = rippled_dir + "/src/ripple/protocol/impl/Feature.cpp"
-        features_blob: str = build_path + f"{version_str}" + "/features.json"
-        features: Any = parse_rippled_amendments(features_file)
+        # save version - gcs
+        version_blob: str = build_path + f"{version_str}" + "/version.txt"
+        client.upload(blob_name=version_blob, payload=version_str)
 
-        # save features list - gcs
-        client.upload(blob_name=features_blob, payload=features)
-
-        # save feature list - local
-        # write_json('amendments/features.json', features)
+        # save version - local
+        # write_file('amendments/version.txt', version_str)
     except Exception as e:
         print(e)

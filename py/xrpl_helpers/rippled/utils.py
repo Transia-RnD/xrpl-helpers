@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import re
+import os
 from typing import Dict, Any  # noqa: F401
 
 from xrpl_helpers.common.utils import read_file
@@ -13,6 +14,29 @@ def parse(value: str):
         return False
     else:
         return True
+
+
+def parse_version_from_path(file_path):
+    # Open the file in read mode
+    with open(file_path, 'r') as file:
+        # Read all the lines
+        lines = file.readlines()
+
+    # Define the version string pattern
+    pattern = r"versionString = \"([0-9a-zA-Z\.\-]+)\""
+
+    # Iterate over each line
+    for line in lines:
+        # Search for the version pattern
+        search = re.search(pattern, line)
+
+        # If match is found
+        if search:
+            # Return the matched version
+            return search.group(1)
+
+    # If no version string found return None
+    return None
 
 
 def parse_rippled_amendments(path: str):
