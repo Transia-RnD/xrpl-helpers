@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# poetry run python3 version.py dangell7 vala linux/amd /Users/denisangell/projects/xrpl-labs/rippled
+# poetry run python3 version.py dangell7 testnet linux/amd /Users/denisangell/projects/xrpl-labs/rippled
 
 from typing import Dict, Any, List  # noqa: F401
 import sys
@@ -37,7 +37,7 @@ if __name__ == "__main__":
         version_str: str = parse_version_from_path(version_file)
 
         # save version - gcs
-        version_blob: str = build_path + f"{version_str}" + "/version.txt"
+        version_blob: str = build_path + "version.txt"
         client.upload(blob_name=version_blob, payload=version_str)
 
         # save version - local
