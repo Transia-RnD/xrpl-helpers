@@ -20,7 +20,7 @@ def parse(value: str):
 def parse_version_from_path(file_path):
     if "xahaud" in file_path:
         # Return the current year/month/day as the version
-        return datetime.now().strftime('%Y/%m/%d')
+        return datetime.now().strftime('%Y.%m.%d')
 
     # Open the file in read mode
     with open(file_path, 'r') as file:
@@ -39,7 +39,7 @@ def parse_version_from_path(file_path):
         if search:
             # Return the matched version
             if search.group(1) == "0.0.0":
-                return datetime.now().strftime('%Y/%m/%d')
+                return datetime.now().strftime('%Y.%m.%d')
 
             return search.group(1)
 
