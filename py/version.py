@@ -14,7 +14,7 @@ from xrpl_helpers.rippled.utils import parse_version_from_path
 if __name__ == "__main__":
     if len(sys.argv) < 4:
         print(
-            "Usage: python3 version.py <namespace> <buildname> <platform> <source file> <dest file>"
+            "Usage: python3 version.py <namespace> <buildname> <platform> <source file>"
         )
         sys.exit()
 

@@ -18,7 +18,7 @@ def parse(value: str):
 
 
 def parse_version_from_path(file_path):
-    if "xahau" in file_path:
+    if "xahaud" in file_path:
         # Return the current year/month/day as the version
         return datetime.now().strftime('%Y/%m/%d')
 
@@ -38,6 +38,9 @@ def parse_version_from_path(file_path):
         # If match is found
         if search:
             # Return the matched version
+            if search.group(1) == "0.0.0":
+                return datetime.now().strftime('%Y/%m/%d')
+
             return search.group(1)
 
     # If no version string found return None
