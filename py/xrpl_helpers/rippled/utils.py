@@ -3,10 +3,11 @@
 
 import re
 import os
+import json
 from datetime import datetime
-from typing import Dict, Any  # noqa: F401
+from typing import Dict, Any, List  # noqa: F401
 
-from xrpl_helpers.common.utils import read_file
+from xrpl_helpers.common.utils import read_json
 import hashlib
 
 
@@ -73,3 +74,21 @@ def parse_rippled_amendments(path: str):
         for (k, v) in amendments.items()
         if v["supported"] == True
     }
+
+def convert_to_list_of_hashes(features):
+    return list(features.values())
+
+def update_amendments(features: Dict[str, Any]):
+    # load the json string into a dictionary
+    json_dict = read_json('genesis.json')
+
+    new_amendments: List[str] = convert_to_list_of_hashes(features)
+
+    # loop through the list of dictionaries in accountState
+    for dct in json_dict['ledger']['accountState']:
+        # check if the dictionary has a key called 'Amendments'
+        if 'Amendments' in dct:
+            # if it does, update it's value with the new amendments
+            dct['Amendments'] = new_amendments
+
+    return json_dict

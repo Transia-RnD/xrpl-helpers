@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# poetry run python3 release.py dangell7 vala linux/amd /Users/denisangell/projects/xrpl-labs/rippled
+# poetry run python3 release.py dangell7 vala linux/amd /Users/denisangell/projects/xrpl-labs/xahaud
 
 from typing import Dict, Any, List  # noqa: F401
 import sys
@@ -9,7 +9,7 @@ import json
 from xrpl_helpers.libs.google.storage import GCPStorageClient
 
 from xrpl_helpers.common.utils import write_json
-from xrpl_helpers.rippled.utils import parse_rippled_amendments, parse_version_from_path
+from xrpl_helpers.rippled.utils import parse_rippled_amendments, parse_version_from_path, update_amendments
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
@@ -39,12 +39,20 @@ if __name__ == "__main__":
         # get features list
         features_file: str = rippled_dir + "/src/ripple/protocol/impl/Feature.cpp"
         features_blob: str = build_path + f"{version_str}" + "/features.json"
-        features: Any = parse_rippled_amendments(features_file)
+        features_json: Any = parse_rippled_amendments(features_file)
 
         # save features list - gcs
-        client.upload(blob_name=features_blob, payload=features)
+        client.upload(blob_name=features_blob, payload=features_json)
+
+        # get genesis
+        genesis_json: Any = update_amendments(features_json)
+
+        # save genesis - gcs
+        genesis_blob: str = build_path + f"{version_str}" + "/genesis.json"
+        client.upload(blob_name=genesis_blob, payload=genesis_json)
 
         # save feature list - local
-        # write_json('amendments/features.json', features)
+        # write_json('amendments/features.json', features_json)
+        # write_json('amendments/genesis.json', genesis_json)
     except Exception as e:
         print(e)
