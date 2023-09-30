@@ -12,9 +12,9 @@ from xrpl_helpers.common.utils import write_json
 from xrpl_helpers.rippled.utils import parse_rippled_amendments, parse_version_from_path, update_amendments
 
 if __name__ == "__main__":
-    if len(sys.argv) < 4:
+    if len(sys.argv) < 5:
         print(
-            "Usage: python3 release.py <namespace> <buildname> <platform> <source file>"
+            "Usage: python3 release.py <namespace> <buildname> <platform> <source file> <xrp protocol>"
         )
         sys.exit()
 
@@ -22,6 +22,7 @@ if __name__ == "__main__":
     build_name: str = sys.argv[2]
     platform: str = sys.argv[3]
     rippled_dir: str = sys.argv[4]
+    xrpl_protocol: str = sys.argv[5]
     if rippled_dir[-1] == "/":
         print("Path Usage: app/src/ripple - no forwardslash")
         sys.exit()
@@ -48,7 +49,7 @@ if __name__ == "__main__":
         genesis_json: Any = update_amendments(features_json)
 
         # save genesis - gcs
-        genesis_blob: str = build_path + f"{version_str}" + "/genesis.json"
+        genesis_blob: str = build_path + f"{version_str}" + f"/genesis.{xrpl_protocol}.json"
         client.upload(blob_name=genesis_blob, payload=genesis_json)
 
         # save feature list - local
