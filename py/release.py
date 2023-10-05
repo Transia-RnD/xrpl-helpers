@@ -46,10 +46,10 @@ if __name__ == "__main__":
         client.upload(blob_name=features_blob, payload=features_json)
 
         # get genesis
-        genesis_json: Any = update_amendments(features_json)
+        genesis_json: Any = update_amendments(features_json, xrpl_protocol)
 
         # save genesis - gcs
-        genesis_blob: str = build_path + f"{version_str}" + f"/genesis.{xrpl_protocol}.json"
+        genesis_blob: str = build_path + f"{version_str}/" + "genesis.json"
         client.upload(blob_name=genesis_blob, payload=genesis_json)
 
         # save feature list - local

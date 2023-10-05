@@ -78,9 +78,9 @@ def parse_rippled_amendments(path: str):
 def convert_to_list_of_hashes(features):
     return list(features.values())
 
-def update_amendments(features: Dict[str, Any]):
+def update_amendments(features: Dict[str, Any], xrpl_protocol: str):
     # load the json string into a dictionary
-    json_dict = read_json('genesis.json')
+    json_dict = read_json(f'genesis.{xrpl_protocol}.json')
 
     new_amendments: List[str] = convert_to_list_of_hashes(features)
 
