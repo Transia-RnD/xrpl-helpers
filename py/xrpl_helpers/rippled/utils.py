@@ -10,6 +10,8 @@ from typing import Dict, Any, List  # noqa: F401
 from xrpl_helpers.common.utils import read_json
 import hashlib
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+parentdir = os.path.dirname(basedir)
 
 def parse(value: str):
     if value == "no":
@@ -80,7 +82,7 @@ def convert_to_list_of_hashes(features):
 
 def update_amendments(features: Dict[str, Any], xrpl_protocol: str):
     # load the json string into a dictionary
-    json_dict = read_json(f'genesis.{xrpl_protocol}.json')
+    json_dict = read_json(f'{parentdir}/genesis.{xrpl_protocol}.json')
 
     new_amendments: List[str] = convert_to_list_of_hashes(features)
 

@@ -55,10 +55,13 @@ export function buildNFTokenIDFromTx(
   tx: Record<string, any>,
   meta: Record<string, any>
 ): string {
-  const sequence =
-    getLastModifiedNode(meta, "AccountRoot").ModifiedNode.PreviousFields
-      .MintedNFTokens || 0;
-  const account = tx.Issuer || tx.Account;
+  const modifiedNode = getLastModifiedNode(meta, "AccountRoot")
+  let sequence = 0
+  if (modifiedNode.ModifiedNode.PreviousFields.MintedNFTokens) {
+    sequence ==
+  }
+
+    const account = tx.Issuer || tx.Account;
   const flags = tx.Flags;
   const fee = tx.TransferFee;
   const taxon = tx.NFTokenTaxon;
