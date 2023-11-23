@@ -9,7 +9,12 @@ import json
 from xrpl_helpers.libs.google.storage import GCPStorageClient
 
 from xrpl_helpers.common.utils import write_json
-from xrpl_helpers.rippled.utils import parse_rippled_amendments, parse_version_from_path, update_amendments
+from xrpl_helpers.rippled.utils import (
+    parse_rippled_amendments,
+    parse_version_from_path,
+    update_amendments,
+    get_feature_lines_from_path,
+)
 
 if __name__ == "__main__":
     if len(sys.argv) < 5:
@@ -40,7 +45,8 @@ if __name__ == "__main__":
         # get features list
         features_file: str = rippled_dir + "/src/ripple/protocol/impl/Feature.cpp"
         features_blob: str = build_path + f"{version_str}" + "/features.json"
-        features_json: Any = parse_rippled_amendments(features_file)
+        lines: Any = get_feature_lines_from_path(features_file)
+        features_json: Any = parse_rippled_amendments(lines)
 
         # save features list - gcs
         client.upload(blob_name=features_blob, payload=features_json)
